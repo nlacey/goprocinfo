@@ -1,13 +1,13 @@
 goprocinfo
 ===================
 
-/proc information parser for Go.
+/proc information parser for Go, includes a fix for older kernels
 
 Usage
 ---------------
 
 ```go
-import linuxproc "github.com/c9s/goprocinfo/linux"
+import linuxproc "github.com/nlacey/goprocinfo/linux"
 
 stat, err := linuxproc.ReadStat("/proc/stat")
 if err != nil {

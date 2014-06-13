@@ -34,16 +34,34 @@ type CPUStat struct {
 
 func createCPUStat(fields []string) *CPUStat {
 	s := CPUStat{}
+	fieldsLen := len(fields)
+	if fieldsLen == 0 {
+		return &s
+	}
+
 	s.User, _ = strconv.ParseUint(fields[1], 10, 32)
 	s.Nice, _ = strconv.ParseUint(fields[2], 10, 32)
 	s.System, _ = strconv.ParseUint(fields[3], 10, 32)
 	s.Idle, _ = strconv.ParseUint(fields[4], 10, 32)
-	s.IOWait, _ = strconv.ParseUint(fields[5], 10, 32)
-	s.IRQ, _ = strconv.ParseUint(fields[6], 10, 32)
-	s.SoftIRQ, _ = strconv.ParseUint(fields[7], 10, 32)
-	s.Steal, _ = strconv.ParseUint(fields[8], 10, 32)
-	s.Guest, _ = strconv.ParseUint(fields[9], 10, 32)
-	s.GuestNice, _ = strconv.ParseUint(fields[10], 10, 32)
+
+	if fieldsLen > 5 { // > Linux 2.5.41
+		s.IOWait, _ = strconv.ParseUint(fields[5], 10, 32)
+	}
+	if fieldsLen > 6 { // > Linux 2.6.0-test4
+		s.IRQ, _ = strconv.ParseUint(fields[6], 10, 32)
+	}
+	if fieldsLen > 7 { // > Linux 2.6.0-test4
+		s.SoftIRQ, _ = strconv.ParseUint(fields[7], 10, 32)
+	}
+	if fieldsLen > 8 { // > Linux 2.6.11
+		s.Steal, _ = strconv.ParseUint(fields[8], 10, 32)
+	}
+	if fieldsLen > 9 { // > Linux 2.6.24
+		s.Guest, _ = strconv.ParseUint(fields[9], 10, 32)
+	}
+	if fieldsLen > 10 { // > Linux 2.6.33)
+		s.GuestNice, _ = strconv.ParseUint(fields[10], 10, 32)
+	}
 	return &s
 }
 
